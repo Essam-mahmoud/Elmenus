@@ -20,8 +20,7 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        detailsImage.layer.cornerRadius = 20
-        
+        ScrollView.delegate = self
         title = "Dish Details"
         self.navigationController?.navigationBar.topItem?.title = " "
         setupView()
@@ -39,6 +38,17 @@ class DetailsViewController: UIViewController {
         let url = URL(string: item!.photoUrl)
         detailsImage.kf.setImage(with: url)
         descriptionLabel.text = item?.itemDescription
+    }
+}
+
+
+extension DetailsViewController: UIScrollViewDelegate{
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let y = (scrollView.contentOffset.y - 200)
+       // let height = max(10, y)
+        let rect = CGRect(x: 0, y: 200, width: view.bounds.width, height: y)
+        detailsImage.frame = rect
+        print(y)
     }
 }
 
